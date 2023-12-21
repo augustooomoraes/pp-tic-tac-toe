@@ -1,3 +1,22 @@
+This app was first made in vanilla javascript. It was then refactored to typescript and, after that, to react. This was all made following [**Zach Gollwitzer**'s video](https://www.youtube.com/watch?v=MsnQ5uepIaE) on **freeCodeCamp**'s YouTube channel.
+
+I once again refactored it to a Next.js app.
+
+```
+npx create-next-app@latest
+- with TypeScript
+- without ESLint
+- with Tailwind CSS
+- without `src/` directory
+- with App Router
+- without customizing the default import alias
+
+npm i classnames
+npm i react-icons
+```
+
+---
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
