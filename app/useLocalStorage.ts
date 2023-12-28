@@ -1,5 +1,6 @@
-import { useCallback } from "react";
+import { Dispatch, SetStateAction, useCallback } from "react";
 import { useEffect, useState } from "react";
+import { cloneDeep } from "lodash";
 
 /**
  * A custom hook that has a similar interface to useState but
@@ -10,8 +11,8 @@ import { useEffect, useState } from "react";
  * @param initialValue initial value to load to localStorage
  * @returns localStorage value
  */
-export function useLocalStorage(key, initialValue) {
-  const [internalValue, setInternalValue] = useState(() => {
+export function useLocalStorage<T>(key: string, initialValue: T): [T, Dispatch<SetStateAction<T>>] {
+  const [internalValue, setInternalValue] = useState<T>(() => {
     try {
       const item = window.localStorage.getItem(key);
       return item ? JSON.parse(item) : initialValue;
@@ -21,13 +22,17 @@ export function useLocalStorage(key, initialValue) {
     }
   });
 
-  const setValue = useCallback(
+  const setValue = useCallback<Dispatch<SetStateAction<T>>>(
     (value) => {
       try {
         const valueToStore = value instanceof Function ? value(internalValue) : value;
-        setInternalValue(valueToStore ?? initialValue);
-        localStorage.setItem(key, JSON.stringify(valueToStore));
+        const clonedValue = cloneDeep(valueToStore);
+        setInternalValue(clonedValue ?? initialValue);
+        localStorage.setItem(key, JSON.stringify(clonedValue));
       } catch (error) {
+        // =x=x=x=x=x=x=x=x=x=x=x
+        // =x=x Teste - Next =x=x
+        console.log(`É esse mesmo o erro que está dando.`);
         console.log(error);
       }
     },

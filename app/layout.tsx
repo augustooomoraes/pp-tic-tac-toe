@@ -6,7 +6,7 @@ const montserrat = Montserrat({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Jogo da velha",
-  description: "Portfólio de desenvolvimento web. Veja mais em augustooomoraes.com. Jogável em abas distintas. Dados das partidas guardados no seu navegador.",
+  description: "Portfólio de desenvolvimento web. Veja mais em augustooomoraes.com. Jogável em abas distintas. Dados das partidas guardados no navegador.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

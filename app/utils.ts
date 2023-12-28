@@ -17,7 +17,7 @@ const players: Player[] = [
   },
 ];
 
-export function derivedGame(state: GameState) {
+export function deriveGame(state: GameState) {
   const currentPlayer = players[state.currentGameMoves.length % 2];
 
   const winningPatterns = [
@@ -53,7 +53,7 @@ export function derivedGame(state: GameState) {
   };
 }
 
-export function derivedStats(state: GameState) {
+export function deriveStats(state: GameState) {
   return {
     playerWithStats: players.map((player) => {
       const wins = state.history.currentRoundGames.filter((game) => game.status.winner?.id === player.id).length;

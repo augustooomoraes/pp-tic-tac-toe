@@ -39,23 +39,45 @@
   --color-quaternary: #d87cac;
   --color-quaternary-rgb: 216, 124, 172;
 
-  --surface-color-primary: var(--color-grey-200);
+  /* =x=x=x=x=x=x=x=x=x=x=x=x=x=x=x=x= falta arrumar o light mode ↓*/
+
+  /* --surface-color-primary: var(--color-grey-200);
   --surface-color-primary-rgb: var(--color-grey-200-rgb);
-  --surface-color-secondary: var(--color-quaternary);
-  --surface-color-secondary-rgb: var(--color-quaternary-rgb);
+  --surface-color-secondary: var(--color-grey-400);
+  --surface-color-secondary-rgb: var(--color-grey-400-rgb);
   --surface-color-terciary: var(--color-terciary);
   --surface-color-terciary-rgb: var(--color-terciary-rgb);
   --surface-color-quaternary: var(--color-white);
   --surface-color-quaternary-rgb: var(--color-white-rgb);
 
-  --border: solid 1px rgba(255, 255, 255, 0.3);
+  --border: solid 1px rgba(var(--color-black-rgb), 0.3);
 
-  --surface-color-hover: rgba(var(--color-white-rgb), 0.15);
+  --surface-color-hover: rgba(var(--color-white-rgb), 0.8);
 
   --font-color-primary: var(--color-black);
   --font-color-primary-rgb: var(--color-black-rgb);
   --font-color-secondary: var(--color-grey-800);
-  --font-color-secondary-rgb: var(--color-grey-800-rgb);
+  --font-color-secondary-rgb: var(--color-grey-800-rgb); */
+
+  --surface-color-primary: var(--color-primary);
+  --surface-color-primary-rgb: var(--color-primary-rgb);
+  --surface-color-secondary: var(--color-secondary);
+  --surface-color-secondary-rgb: var(--color-secondary-rgb);
+  --surface-color-terciary: var(--color-terciary);
+  --surface-color-terciary-rgb: var(--color-terciary-rgb);
+  --surface-color-quaternary: var(--color-quaternary);
+  --surface-color-quaternary-rgb: var(--color-quaternary-rgb);
+
+  --border: solid 1px rgba(var(--color-white-rgb), 0.3);
+
+  --surface-color-hover: rgba(var(--color-white-rgb), 0.15);
+
+  --font-color-primary: var(--color-white);
+  --font-color-primary-rgb: var(--color-white-rgb);
+  --font-color-secondary: var(--color-grey-300);
+  --font-color-secondary-rgb: var(--color-grey-300-rgb);
+
+  /* =x=x=x=x=x=x=x=x=x=x=x=x=x=x=x=x= falta arrumar o light mode ↑ */
 
   --link-normal: var(--color-terciary);
   --link-visited: var(--link-normal);
@@ -65,35 +87,8 @@
   --player-x-color: var(--color-terciary);
   --player-o-color: var(--color-quaternary);
 
-  /* --font-primary: "Aleo", sans-serif;
-  --font-color-: "Nunito Sans", sans-serif; */
-
   /* =x=x=x=x=x=x=x=x=x=x=x=x=x=x=x=x Other
 =x=x=x=x=x=x=x=x=x=x=x=x=x=x=x=x=x=x=x=x */
-
-  /* --header1-size: 48rem;
-  --header1-spacing: calc(var(--header1-size) * 0.6);
-  --header2-size: 40rem;
-  --header2-spacing: calc(var(--header2-size) * 0.6);
-  --header3-size: 34rem;
-  --header3-spacing: calc(var(--header3-size) * 0.6);
-  --header4-size: 30rem;
-  --header4-spacing: calc(var(--header4-size) * 0.6);
-  --paragraph-size: 22rem;
-  --paragraph-spacing: calc(var(--paragraph-size) * 0.8);
-  --list-item-size: var(--paragraph-size);
-  --list-item-spacing: calc(var(--list-item-size) * 0.6);
-
-  --button-spacing: var(--header1-size);
-  --main-padding: 50px 100px;
-
-  --nav-left-width: 240px;
-  --nav-padding: 6px 10px;
-  --nav-li-padding: 6px 15px;
-  --nav-border: solid 1px #777;
-  --reg-text-margin-bottom: 10px; */
-
-  /* --content-max-width: 1000px; */
 
   /* --transition-duration: 0.4s; */
 
@@ -110,6 +105,10 @@
     --surface-color-terciary-rgb: var(--color-terciary-rgb);
     --surface-color-quaternary: var(--color-quaternary);
     --surface-color-quaternary-rgb: var(--color-quaternary-rgb);
+
+    --border: solid 1px rgba(var(--color-white-rgb), 0.3);
+
+    --surface-color-hover: rgba(var(--color-white-rgb), 0.15);
 
     --font-color-primary: var(--color-white);
     --font-color-primary-rgb: var(--color-white-rgb);
@@ -131,17 +130,12 @@
   text-decoration: none;
 }
 
-/* html {
-  font-size: 6.25%;
-  // Usando Tailwind CSS, não é preciso determinar os tamanhos usando 'rem' diretamente.
-  // Modificar assim o valor da unidade estragaria essa função.
-} */
-
 body {
   min-height: 100vh;
   color: rgb(var(--font-color-primary-rgb));
 
-  background: linear-gradient(81deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.1) 30%, rgba(0, 0, 0, 0) 100%), rgb(var(--surface-color-primary-rgb));
+  background: repeat url(./gausian-blur-5-40--40.png), rgb(var(--surface-color-primary-rgb));
+  background-blend-mode: multiply, normal;
 
   display: flex;
   flex-direction: column;
@@ -149,58 +143,31 @@ body {
   align-items: center;
 }
 
-/* nav {
-  max-width: var(--content-max-width);
-} */
-
-main {
-  width: 100%;
-  padding-top: 95px;
-  margin: 0 auto;
-
-  /* grid-column: 2 / 3;
-  display: block; */
-}
-
 h1 {
   font-weight: 600;
-  /* font-size: var(--header1-size);
-  margin-bottom: var(--header1-spacing); */
 }
 
 h2 {
   font-weight: 600;
-  /* font-size: var(--header2-size);
-  margin-bottom: var(--header2-spacing); */
 }
 
 h3 {
   font-weight: 500;
-  /* font-size: var(--header3-size);
-  margin-bottom: var(--header3-spacing); */
 }
 
 h4 {
   font-weight: 500;
-  /* font-size: var(--header4-size);
-  margin-bottom: var(--header4-spacing); */
 }
 
 p {
   font-weight: 400;
-  /* font-size: var(--paragraph-size); */
 
   line-height: 150%;
   line-height-step: 250%;
-
-  /* &:not(:last-child) {
-    margin-bottom: var(--paragraph-spacing);
-  } */
 }
 
 li {
   font-weight: 400;
-  /* font-size: var(--list-item-size); */
 
   line-height: 130%;
   line-height-step: 250%;
@@ -210,8 +177,6 @@ li {
 
 a {
   color: var(--link-normal);
-
-  /* transition: color var(--transition-duration); */
 
   &:visited {
     color: var(--link-visited);
