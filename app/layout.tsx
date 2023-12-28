@@ -7,6 +7,17 @@ const montserrat = Montserrat({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Jogo da velha",
   description: "Portfólio de desenvolvimento web. Veja mais em augustooomoraes.com. Jogável em abas distintas. Dados das partidas guardados no navegador.",
+  metadataBase: new URL("https://pp-tic-tac-toe.vercel.app/"),
+  openGraph: {
+    images: [
+      {
+        url: "https://pp-tic-tac-cwleunyr6-augustomoraes.vercel.app/opengraph-image.png?65079fb8918cb5d6=",
+        width: 800,
+        height: 400,
+        alt: "Augusto Moraes' Tic Tac Toe portfolio website project cover image.",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
