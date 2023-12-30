@@ -61,6 +61,7 @@ Error: Process completed with exit code 1.
 - [ ] pôr no <https://www.augustooomoraes.com/web>;
 - [x] publicar no Vercel e ver se as OG e Twitter images estão funcionando; se estiverem, arrumar o código da página de portfólio;
       → Não funcionaram. Adicionarei os metadados (supostamente) necessários neste projeto, também.
+- [x] pôr o Analytics
 - [ ] arrumar o light mode;
 - [ ] botão de alternar entre dark/light mode;
 - [ ] corrigir as animações do mostrador do jogador atual;

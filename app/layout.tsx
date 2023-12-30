@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/react";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
 
@@ -20,10 +21,16 @@ export const metadata: Metadata = {
   },
 };
 
+// Há a aba 'Open Graph' nas páginas dos deployments, nas páginas das publicações, no Vercel. Ver se há qualquer pista ali sobre essa confusão toda.
+// https://vercel.com/augustomoraes/pp-tic-tac-toe/deployments
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pt-BR">
-      <body className={montserrat.className}>{children}</body>
+      <body className={montserrat.className}>
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }
