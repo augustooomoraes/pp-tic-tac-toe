@@ -74,9 +74,9 @@ export default function Home() {
     <>
       <main>
         <div className="grid grid-cols-[80px_80px_80px] grid-rows-[50px_80px_80px_80px_60px] gap-5 md:grid-cols-[160px_160px_160px] md:grid-rows-[50px_160px_160px_160px_60px]">
-          <div className={classNames("col-start-1 col-end-3 self-center flex items-center gap-5", game.currentPlayer.colorClass)}>
-            <div className={classNames("animate-turnIconAnimation", game.currentPlayer.colorClass)}>{game.currentPlayer.id === 1 ? <FaX /> : <FaO />} </div>
-            <p className="animate-turnTextAnimation">{`Vez do ${game.currentPlayer.name}`}</p>
+          <div className={classNames("col-start-1 col-end-3 self-center flex items-center gap-5 md:text-lg", game.currentPlayer.colorClass)}>
+            <div className={classNames("animate-turnIconAnimation")}>{game.currentPlayer.id === 1 ? <FaX /> : <FaO />} </div>
+            <p className="animate-turnTextAnimation font-medium dark:font-normal">{`Vez do ${game.currentPlayer.name}`}</p>
           </div>
 
           <Menu onAction={(action) => resetGame(action === "new-round")} />
@@ -87,12 +87,9 @@ export default function Home() {
             return (
               <div
                 key={squareId}
-                className="flex justify-center items-center text-5xl rounded-lg bg-white/10 hover:cursor-pointer hover:placeholder-opacity-90 shadow-lg shadow-black/30"
+                className="flex justify-center items-center text-3xl md:text-5xl rounded-lg bg-black/5 hover:bg-black/[0.03] active:bg-black/[0.01] dark:bg-white/10 dark:hover:bg-white/[0.15] dark:active:bg-white/20 hover:cursor-pointer hover:placeholder-opacity-90 shadow-lg shadow-black/30"
                 onClick={() => {
                   if (existingMove) {
-                    // =x=x=x=x=x=x=x=x=x=x=x
-                    // =x=x Teste - Next =x=x
-                    console.log(`Clicked square already has an existing move.`);
                     return;
                   }
 
@@ -104,16 +101,16 @@ export default function Home() {
             );
           })}
 
-          <div className="flex flex-col justify-center items-center rounded-lg shadow-lg shadow-black/30 player-x-surface-color">
-            <p className="text-sm font-bold">{stats.playerWithStats[0].name}</p>
+          <div className="flex flex-col justify-center items-center rounded-lg shadow-lg shadow-black/30 bg-terciary dark:bg-terciary-dark">
+            <p className="text-xs md:text-sm font-bold">{stats.playerWithStats[0].name}</p>
             <span className="text-xs mt-0.5">{stats.playerWithStats[0].wins}</span>
           </div>
-          <div className="flex flex-col justify-center items-center rounded-lg shadow-lg shadow-black/30 surface-color-ties">
-            <p className="text-sm font-bold">Empates</p>
+          <div className="flex flex-col justify-center items-center rounded-lg shadow-lg shadow-black/30 bg-ties dark:bg-ties-darker">
+            <p className="text-xs md:text-sm font-bold">Empates</p>
             <span className="text-xs mt-0.5">{stats.ties}</span>
           </div>
-          <div className="flex flex-col justify-center items-center rounded-lg shadow-lg shadow-black/30 player-o-surface-color">
-            <p className="text-sm font-bold">{stats.playerWithStats[1].name}</p>
+          <div className="flex flex-col justify-center items-center rounded-lg shadow-lg shadow-black/30 bg-quaternary dark:bg-quaternary-dark">
+            <p className="text-xs md:text-sm font-bold">{stats.playerWithStats[1].name}</p>
             <span className="text-xs mt-0.5">{stats.playerWithStats[1].wins}</span>
           </div>
         </div>
@@ -121,7 +118,7 @@ export default function Home() {
 
       <Footer />
 
-      {game.status.isComplete && <Modal winnerBg={game.status.winner?.bgColorClass || "surface-color-ties"} message={game.status.winner ? `${game.status.winner.name} venceu!` : "Empate!"} onClick={() => resetGame(false)} />}
+      {game.status.isComplete && <Modal winnerBg={game.status.winner?.bgColorClass || "bg-ties-dark dark:bg-ties-darkest"} message={game.status.winner ? `${game.status.winner.name} venceu!` : "Empate!"} onClick={() => resetGame(false)} />}
     </>
   );
 }

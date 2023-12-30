@@ -3,7 +3,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
 
-const montserrat = Montserrat({ subsets: ["latin"] });
+const montserrat = Montserrat({ weight: ["400", "500"], subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Jogo da velha",

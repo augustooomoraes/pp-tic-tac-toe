@@ -14,7 +14,7 @@ export default function Menu({ onAction }: Props) {
   return (
     <div className="relative">
       <button
-        className={classNames("w-full h-full cursor-pointer flex justify-around items-center rounded-xl surface-color-secondary", menuOpen ? "border-custom" : "")}
+        className={classNames("w-full h-full cursor-pointer flex justify-around items-center rounded-xl text-sm md:text-base bg-secondary dark:bg-secondary-dark", menuOpen ? "border-custom" : "")}
         onClick={() => {
           setMenuOpen((prev) => !prev);
           // =x=x=x=x=x=x=x=x=x=x=x
@@ -27,25 +27,19 @@ export default function Menu({ onAction }: Props) {
       </button>
 
       {menuOpen && (
-        <div className="absolute top-16 right-0 z-10 rounded-0.5 p-2.5 surface-color-secondary border-custom">
+        <div className="absolute top-16 right-0 z-10 rounded-0.5 p-2.5 border-custom bg-secondary dark:bg-secondary-dark">
           <button
-            className="w-full text-left rounded p-2 bg-transparent hover:cursor-pointer hover:bg-white/10 active:cursor-pointer active:bg-white/[.15]"
+            className="w-full text-left rounded p-2 bg-transparent hover:cursor-pointer hover:bg-black/5 active:bg-black/10 dark:hover:bg-white/10 dark:active:bg-white/[.15] active:cursor-pointer"
             onClick={() => {
               onAction("reset");
-              // =x=x=x=x=x=x=x=x=x=x=x
-              // =x=x Teste - Next =x=x
-              console.log(`Reset button clicked.`);
             }}
           >
             Reiniciar
           </button>
           <button
-            className="w-full text-left rounded p-2 bg-transparent hover:cursor-pointer hover:bg-white/10 active:cursor-pointer active:bg-white/[.15]"
+            className="w-full text-left rounded p-2 bg-transparent hover:cursor-pointer hover:bg-black/5 active:bg-black/10 dark:hover:bg-white/10 dark:active:bg-white/[.15] active:cursor-pointer"
             onClick={() => {
               onAction("new-round");
-              // =x=x=x=x=x=x=x=x=x=x=x
-              // =x=x Teste - Next =x=x
-              console.log(`New round button clicked.`);
             }}
           >
             Nova Rodada
