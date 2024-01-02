@@ -29,6 +29,8 @@ export default function Home() {
    * there are other opened links, but this seems more promising → Next.js ThemeProvider
    */
 
+  // Committing again for staging.
+
   // const [darkTheme, setDarkTheme] = useLocalStorage<boolean>("dark-theme-key", window.matchMedia("(prefers-color-scheme: dark)").matches ? true : false);
 
   const game = deriveGame(state);
