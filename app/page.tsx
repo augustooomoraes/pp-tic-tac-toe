@@ -6,7 +6,7 @@ import Menu from "./ui/menu";
 import Modal from "./ui/modal";
 import { GameState, Player } from "./types";
 import { deriveGame, deriveStats } from "./utils";
-import { FaX, FaO } from "react-icons/fa6";
+import { FaX, FaO, FaMoon, FaSun } from "react-icons/fa6";
 import { useLocalStorage } from "./useLocalStorage";
 import { cloneDeep } from "lodash";
 
@@ -19,12 +19,31 @@ export default function Home() {
     },
   });
 
+  /** TOGGLE LIGHT/DARK MODE TO DO:
+   * uncomment tailwind.config.ts line 6
+   * uncomment useLocalStorage constants below
+   * uncomment toggleTheme function below
+   * maybe uncomment main element class
+   * fix and uncomment toggle function button above footer element
+   * https://egghead.io/blog/tailwindcss-dark-mode-nextjs-typography-prose
+   * there are other opened links, but this seems more promising → Next.js ThemeProvider
+   */
+
+  // const [darkTheme, setDarkTheme] = useLocalStorage<boolean>("dark-theme-key", window.matchMedia("(prefers-color-scheme: dark)").matches ? true : false);
+
   const game = deriveGame(state);
   const stats = deriveStats(state);
 
+  // function toggleTheme() {
+  //   setDarkTheme((prev: boolean) => {
+  //     let darkThemeClone = cloneDeep(prev);
+  //     darkThemeClone ? (darkThemeClone = false) : (darkThemeClone = true);
+
+  //     return darkThemeClone;
+  //   });
+  // }
+
   function resetGame(isNewRound: boolean) {
-    // Menu.tsx → setMenuOpen((prev) => false)}
-    // Não sei como se deve controlar um state de outro arquivo. Exportar de lá? ...
     setState((prev: GameState) => {
       const stateClone = cloneDeep(prev);
       const { status, moves } = game;
@@ -55,12 +74,6 @@ export default function Home() {
         squareId,
         player,
       });
-
-      // =x=x=x=x=x=x=x=x=x=x=x
-      // =x=x Teste - Next =x=x
-      console.log(`Square ${squareId} clicked by player ${player.name}.`);
-      console.log(deriveGame(state));
-
       return stateClone;
     });
   }
@@ -72,7 +85,9 @@ export default function Home() {
 
   return (
     <>
-      <main>
+      <main
+      // className={JSON.parse(localStorage.getItem("dark-theme-key")) ? "dark" : ""}
+      >
         <div className="grid grid-cols-[80px_80px_80px] grid-rows-[50px_80px_80px_80px_60px] gap-5 md:grid-cols-[160px_160px_160px] md:grid-rows-[50px_160px_160px_160px_60px]">
           <div className={classNames("col-start-1 col-end-3 self-center flex items-center gap-5 md:text-lg", game.currentPlayer.colorClass)}>
             <div className={classNames("animate-turnIconAnimation")}>{game.currentPlayer.id === 1 ? <FaX /> : <FaO />} </div>
@@ -115,6 +130,10 @@ export default function Home() {
           </div>
         </div>
       </main>
+
+      {/* <div className="">
+        <button onClick={toggleTheme}>{JSON.parse(localStorage.getItem("dark-theme-key")) ? <FaSun /> : <FaMoon />}</button>
+      </div> */}
 
       <Footer />
 

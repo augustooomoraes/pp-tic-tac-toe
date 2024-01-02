@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/react";
 import { Montserrat } from "next/font/google";
+import classNames from "classnames";
 import "./globals.css";
 
 const montserrat = Montserrat({ weight: ["400", "500"], subsets: ["latin"] });
@@ -27,7 +28,12 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pt-BR">
-      <body className={montserrat.className}>
+      <body
+        className={classNames(
+          montserrat.className
+          // , "bg-primary dark:bg-primary-dark"
+        )}
+      >
         {children}
         <Analytics />
       </body>

@@ -30,9 +30,6 @@ export function useLocalStorage<T>(key: string, initialValue: T): [T, Dispatch<S
         setInternalValue(clonedValue ?? initialValue);
         localStorage.setItem(key, JSON.stringify(clonedValue));
       } catch (error) {
-        // =x=x=x=x=x=x=x=x=x=x=x
-        // =x=x Teste - Next =x=x
-        console.log(`É esse mesmo o erro que está dando.`);
         console.log(error);
       }
     },

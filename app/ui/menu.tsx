@@ -17,9 +17,6 @@ export default function Menu({ onAction }: Props) {
         className={classNames("w-full h-full cursor-pointer flex justify-around items-center rounded-xl text-sm md:text-base bg-secondary dark:bg-secondary-dark", menuOpen ? "border-custom" : "")}
         onClick={() => {
           setMenuOpen((prev) => !prev);
-          // =x=x=x=x=x=x=x=x=x=x=x
-          // =x=x Teste - Next =x=x
-          console.log(`Menu clicked.`);
         }}
       >
         Ações

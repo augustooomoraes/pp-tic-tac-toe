@@ -27,6 +27,7 @@ Error: Process completed with exit code 1.
       → Não funcionaram. Adicionarei os metadados (supostamente) necessários neste projeto, também.
 - [x] pôr o Analytics
 - [x] arrumar o light mode;
+- [x] atualizar favicon, og e twitter images (publicar em branch de teste, ver no Vercel se mudou o link da imagem e, se sim, atualizar o que está nos metadados do 'layout.tsx');
 - [ ] botão de alternar entre dark/light mode;
 - [ ] corrigir as animações do mostrador do jogador atual;
 - [x] criar animações de hover e click nos links do rodapé;
