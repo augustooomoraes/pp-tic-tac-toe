@@ -3,7 +3,7 @@ import type { Config } from "tailwindcss";
 const colors = require("tailwindcss/colors");
 
 const config: Config = {
-  // darkMode: "class",
+  darkMode: "class",
   content: ["./pages/**/*.{js,ts,jsx,tsx,mdx}", "./components/**/*.{js,ts,jsx,tsx,mdx}", "./app/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
@@ -26,21 +26,46 @@ const config: Config = {
         turnTextAnimation: "turnTextKeyframes 0.6s ease-in-out",
       },
       colors: {
-        primary: {
-          DEFAULT: colors.neutral["200"],
-          dark: "#353231",
+        primary: "rgba(var(--color-primary-rgb))",
+        secondary: "rgba(var(--color-secondary-rgb))",
+        terciary: "rgba(var(--color-terciary-rgb))",
+        quaternary: "rgba(var(--color-quaternary-rgb))",
+        /* =x=x=x=x=x=x=x=x= */
+        surface: {
+          primary: "rgba(var(--surface-color-primary-rgb))",
+          secondary: "rgba(var(--surface-color-secondary-rgb))",
+          terciary: "rgba(var(--surface-color-terciary-rgb))",
+          quaternary: "rgba(var(--surface-color-quaternary-rgb))",
+
+          primaryDark: "rgba(var(--surface-color-primary-dark-rgb))",
+          secondaryDark: "rgba(var(--surface-color-secondary-dark-rgb))",
+          terciaryDark: "rgba(var(--surface-color-terciary-dark-rgb))",
+          quaternaryDark: "rgba(var(--surface-color-quaternary-dark-rgb))",
+
+          ties: "rgba(var(--surface-color-ties-rgb))",
+          tiesDark: "rgba(var(--surface-color-ties-dark-rgb))",
+
+          menuButton: "rgba(var(--surface-color-menu-button-rgb))",
+          menuButtonHover: "rgba(var(--surface-color-menu-button-hover-rgb))",
+          menuButtonActive: "rgba(var(--surface-color-menu-button-active-rgb))",
+          menuButtonDark: "rgba(var(--surface-color-menu-button-dark-rgb))",
+          menuButtonHoverDark: "rgba(var(--surface-color-menu-button-hover-dark-rgb))",
+          menuButtonActiveDark: "rgba(var(--surface-color-menu-button-active-dark-rgb))",
         },
-        secondary: {
-          DEFAULT: colors.neutral["300"],
-          dark: "#575352",
+        /* =x=x=x=x=x=x=x=x= */
+        text: {
+          primary: "rgba(var(--font-color-primary-rgb))",
+          secondary: "rgba(var(--font-color-secondary-rgb))",
+
+          primaryDark: "rgba(var(--font-color-primary-dark-rgb))",
+          secondaryDark: "rgba(var(--font-color-secondary-dark-rgb))",
         },
-        terciary: {
-          DEFAULT: "#00de7e",
-          dark: "#00ac62",
-        },
-        quaternary: {
-          DEFAULT: "#ff9ccf",
-          dark: "#d87cac",
+        /* =x=x=x=x=x=x=x=x= */
+        player: {
+          x: "rgba(var(--player-x-color-rgb), .8)",
+          xDark: "var(--player-x-color)",
+          o: "rgba(var(--player-o-color-rgb), .8)",
+          oDark: "var(--player-o-color)",
         },
         /* =x=x=x=x=x=x=x=x= */
         onPlayer: {
@@ -49,9 +74,9 @@ const config: Config = {
         },
         /* =x=x=x=x=x=x=x=x= */
         ties: {
-          DEFAULT: colors.neutral["300"],
+          DEFAULT: "",
           dark: colors.neutral["400"],
-          darker: colors.neutral["600"],
+          darker: "",
           darkest: colors.neutral["700"],
         },
       },
