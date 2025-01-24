@@ -5,15 +5,15 @@ const players: Player[] = [
     id: 1,
     name: "Jogador 1",
     iconClass: "fa-x", // Teria que mudar para o componente.
-    colorClass: "text-terciary-dark",
-    bgColorClass: "bg-terciary dark:bg-terciary-dark",
+    colorClass: "text-player-xDark",
+    bgColorClass: "bg-player-x dark:bg-player-xDark",
   },
   {
     id: 2,
     name: "Jogador 2",
     iconClass: "fa-o", // Teria que mudar para o componente.
-    colorClass: "text-quaternary-dark",
-    bgColorClass: "bg-quaternary dark:bg-quaternary-dark",
+    colorClass: "text-player-oDark",
+    bgColorClass: "bg-player-o dark:bg-player-oDark",
   },
 ];
 

@@ -14,7 +14,16 @@ export default function Menu({ onAction }: Props) {
   return (
     <div className="relative">
       <button
-        className={classNames("w-full h-full cursor-pointer flex justify-around items-center rounded-xl text-sm md:text-base bg-secondary dark:bg-secondary-dark", menuOpen ? "border-custom" : "")}
+        className="
+          flex justify-center md:justify-around items-center gap-1.5 md:gap-0
+          w-full h-full
+          cursor-pointer
+          rounded-xl
+          text-sm md:text-base
+          bg-surface-menuButton            dark:bg-surface-menuButtonDark
+          hover:bg-surface-menuButtonHover hover:dark:bg-surface-menuButtonHoverDark
+          transition-colors
+        "
         onClick={() => {
           setMenuOpen((prev) => !prev);
         }}
@@ -24,9 +33,23 @@ export default function Menu({ onAction }: Props) {
       </button>
 
       {menuOpen && (
-        <div className="absolute top-16 right-0 z-10 rounded-0.5 p-2.5 border-custom bg-secondary dark:bg-secondary-dark">
+        <div className="
+          absolute
+          top-14 right-0 z-10
+          rounded-xl p-2.5
+          bg-surface-menuButton dark:bg-surface-menuButtonDark
+        ">
           <button
-            className="w-full text-left rounded p-2 bg-transparent hover:cursor-pointer hover:bg-black/5 active:bg-black/10 dark:hover:bg-white/10 dark:active:bg-white/[.15] active:cursor-pointer"
+            className="
+              w-full p-2
+              text-left
+              rounded
+              hover:cursor-pointer active:cursor-pointer
+              bg-transparent
+              hover:bg-surface-menuButtonHover          active:bg-surface-menuButtonActive
+              hover:dark:bg-surface-menuButtonHoverDark dark:active:bg-surface-menuButtonActiveDark
+              transition-colors
+            "
             onClick={() => {
               onAction("reset");
             }}
@@ -34,7 +57,15 @@ export default function Menu({ onAction }: Props) {
             Reiniciar
           </button>
           <button
-            className="w-full text-left rounded p-2 bg-transparent hover:cursor-pointer hover:bg-black/5 active:bg-black/10 dark:hover:bg-white/10 dark:active:bg-white/[.15] active:cursor-pointer"
+            className="
+              w-full p-2
+              text-left
+              rounded
+              hover:cursor-pointer active:cursor-pointer
+              bg-transparent
+              hover:bg-surface-menuButtonHover          active:bg-surface-menuButtonActive
+              hover:dark:bg-surface-menuButtonHoverDark dark:active:bg-surface-menuButtonActiveDark
+            "
             onClick={() => {
               onAction("new-round");
             }}
