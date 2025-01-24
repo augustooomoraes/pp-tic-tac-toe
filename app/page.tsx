@@ -10,6 +10,7 @@ import { FaX, FaO } from "react-icons/fa6";
 import { useLocalStorage } from "./lib/useLocalStorage";
 import { cloneDeep } from "lodash";
 import { ThemeToggle } from "./ui/themeToggle/theme-toggle";
+import { useEffect, useState } from "react";
 
 export default function Home() {
   const [state, setState] = useLocalStorage<GameState>("game-state-key", {
@@ -22,6 +23,25 @@ export default function Home() {
 
   const game = deriveGame(state);
   const stats = deriveStats(state);
+
+  const [animateIcon, setAnimateIcon] = useState(false);
+  const [animateText, setAnimateText] = useState(false);
+
+  useEffect(() => {
+    // Trigger animation for icon
+    setAnimateIcon(true);
+    const iconTimeout = setTimeout(() => setAnimateIcon(false), 500); // Match animation duration
+
+    // Trigger animation for text
+    setAnimateText(true);
+    const textTimeout = setTimeout(() => setAnimateText(false), 500); // Match animation duration
+
+    // Cleanup
+    return () => {
+      clearTimeout(iconTimeout);
+      clearTimeout(textTimeout);
+    };
+  }, [game.currentPlayer]); // Re-trigger animations when the current player changes
 
   function resetGame(isNewRound: boolean) {
     setState((prev: GameState) => {
@@ -71,10 +91,10 @@ export default function Home() {
             "col-start-1 col-end-3 self-center flex items-center gap-5 md:text-lg",
             game.currentPlayer.colorClass
           )}>
-            <div className={classNames("animate-turnIconAnimation")}>
+            <div className={classNames({"animate-turnIconAnimation": animateIcon})}>
               {game.currentPlayer.id === 1 ? <FaX /> : <FaO />}
             </div>
-            <p className="animate-turnTextAnimation font-medium dark:font-normal">
+            <p className={classNames({"animate-turnTextAnimation": animateText}, "font-medium dark:font-normal")}>
               {`Vez do ${game.currentPlayer.name}`}
             </p>
           </div>
