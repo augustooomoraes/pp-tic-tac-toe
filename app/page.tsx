@@ -26,22 +26,24 @@ export default function Home() {
 
   const [animateIcon, setAnimateIcon] = useState(false);
   const [animateText, setAnimateText] = useState(false);
+  const [isBlinking, setIsBlinking] = useState([false, false, false, false, false, false, false, false, false]);
 
   useEffect(() => {
-    // Trigger animation for icon
     setAnimateIcon(true);
-    const iconTimeout = setTimeout(() => setAnimateIcon(false), 500); // Match animation duration
+    const iconTimeout = setTimeout(() => setAnimateIcon(false), 500);
 
-    // Trigger animation for text
     setAnimateText(true);
-    const textTimeout = setTimeout(() => setAnimateText(false), 500); // Match animation duration
+    const textTimeout = setTimeout(() => setAnimateText(false), 500);
 
-    // Cleanup
     return () => {
       clearTimeout(iconTimeout);
       clearTimeout(textTimeout);
     };
-  }, [game.currentPlayer]); // Re-trigger animations when the current player changes
+  }, [game.currentPlayer]);
+
+  useEffect(() => {
+    setTimeout(() => setIsBlinking(Array(9).fill(false)), 300);
+  }, [isBlinking]);
 
   function resetGame(isNewRound: boolean) {
     setState((prev: GameState) => {
@@ -54,6 +56,11 @@ export default function Home() {
           status,
         });
       }
+
+      const filledSquares = moves.map((move) => move.squareId);
+      const newBlinkingState = Array(9).fill(false);
+      filledSquares.forEach( (id) => newBlinkingState[id - 1] = true );
+      setIsBlinking(newBlinkingState)
 
       stateClone.currentGameMoves = [];
 
@@ -107,16 +114,19 @@ export default function Home() {
             return (
               <div
                 key={squareId}
-                className="
-                  flex justify-center items-center
-                  text-3xl md:text-5xl
-                  rounded-lg
-                  bg-black/5       hover:bg-black/[0.03]      active:bg-black/[0.01]
-                  dark:bg-white/10 dark:hover:bg-white/[0.15] dark:active:bg-white/
-                  transition-colors
-                  hover:cursor-pointer hover:placeholder-opacity-90
-                  shadow-md dark:shadow-lg shadow-black/30
-                "
+                className={classNames(
+                  `
+                    flex justify-center items-center
+                    text-3xl md:text-5xl
+                    rounded-lg
+                    bg-black/5       hover:bg-black/[0.03]      active:bg-black/[0.01]
+                    dark:bg-white/10 dark:hover:bg-white/[0.15] dark:active:bg-white/
+                    transition-colors
+                    hover:cursor-pointer hover:placeholder-opacity-90
+                    shadow-md dark:shadow-lg shadow-black/30
+                  `,
+                  { '!bg-white/50 dark:!bg-white/30': isBlinking[squareId - 1] }
+                )}
                 onClick={() => {
                   if (existingMove) return;
                   handlePlayerMove(squareId, game.currentPlayer);
