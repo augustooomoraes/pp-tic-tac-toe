@@ -8,7 +8,7 @@ import { GameState, Player } from "./lib/types";
 import { deriveGame, deriveStats } from "./lib/utils";
 import { FaX, FaO } from "react-icons/fa6";
 import { useLocalStorage } from "./lib/useLocalStorage";
-import { cloneDeep } from "lodash";
+import { cloneDeep, set } from "lodash";
 import { ThemeToggle } from "./ui/themeToggle/theme-toggle";
 import { useEffect, useState } from "react";
 
@@ -26,7 +26,6 @@ export default function Home() {
 
   const [animateIcon, setAnimateIcon] = useState(false);
   const [animateText, setAnimateText] = useState(false);
-  const [isBlinking, setIsBlinking] = useState([false, false, false, false, false, false, false, false, false]);
 
   useEffect(() => {
     setAnimateIcon(true);
@@ -41,9 +40,28 @@ export default function Home() {
     };
   }, [game.currentPlayer]);
 
+  const [isBlinking, setIsBlinking] = useState([false, false, false, false, false, false, false, false, false]);
+  const [gameWinner, setGameWinner] = useState<number | null>(null);
+  const [gameNewRound, setGameNewRound] = useState(false);
+
   useEffect(() => {
     setTimeout(() => setIsBlinking(Array(9).fill(false)), 300);
   }, [isBlinking]);
+
+  useEffect(() => {
+    if (game.status.isComplete) {
+      setGameWinner(game.status.winner?.id || 0);
+      console.log(`gameWinner: ${gameWinner}`); // TODO: remove testlog
+    } else {
+      setTimeout(() => setGameWinner(null), 300);
+    }
+  }, [game.status.isComplete]);
+
+  useEffect(() => {
+    gameNewRound === true && setTimeout(() => setGameNewRound(false), 300);
+  }, [gameNewRound]);
+
+  // =x=x=x=x=x=x=x=x=x=x=x=x=x=x=x=x=
 
   function resetGame(isNewRound: boolean) {
     setState((prev: GameState) => {
@@ -67,6 +85,7 @@ export default function Home() {
       if (isNewRound) {
         stateClone.history.allGames.push(...stateClone.history.currentRoundGames);
         stateClone.history.currentRoundGames = [];
+        setGameNewRound(true)
       }
 
       return stateClone;
@@ -137,33 +156,42 @@ export default function Home() {
             );
           })}
 
-          <div className="
-            flex flex-col justify-center items-center
-            rounded-lg
-            shadow-md dark:shadow-lg shadow-black/30
-            bg-player-x dark:bg-player-xDark
-            transition-colors
-          ">
+          <div className={classNames(
+            `
+              flex flex-col justify-center items-center
+              rounded-lg
+              shadow-md dark:shadow-lg shadow-black/30
+              bg-player-x dark:bg-player-xDark
+              transition-colors
+            `,
+            { '!bg-player-x/50 dark:!bg-player-xDark/50': gameWinner === 1 || gameNewRound }
+          )}>
             <p className="text-xs md:text-sm font-bold">{stats.playerWithStats[0].name}</p>
             <span className="text-xs mt-0.5">{stats.playerWithStats[0].wins}</span>
           </div>
-          <div className="
-            flex flex-col justify-center items-center
-            rounded-lg
-            shadow-md dark:shadow-lg shadow-black/30
-            bg-surface-ties dark:bg-surface-tiesDark
-            transition-colors
-          ">
+          <div className={classNames(
+            `
+              flex flex-col justify-center items-center
+              rounded-lg
+              shadow-md dark:shadow-lg shadow-black/30
+              bg-surface-ties dark:bg-surface-tiesDark
+              transition-colors
+            `,
+            { '!bg-surface-ties/50 dark:!bg-surface-tiesDark/50': gameWinner === 0 || gameNewRound }
+          )}>
             <p className="text-xs md:text-sm font-bold">Empates</p>
             <span className="text-xs mt-0.5">{stats.ties}</span>
           </div>
-          <div className="
-            flex flex-col justify-center items-center
-            rounded-lg
-            shadow-md dark:shadow-lg shadow-black/30
-            bg-player-o dark:bg-player-oDark
-            transition-colors
-          ">
+          <div className={classNames(
+            `
+              flex flex-col justify-center items-center
+              rounded-lg
+              shadow-md dark:shadow-lg shadow-black/30
+              bg-player-o dark:bg-player-oDark
+              transition-colors
+            `,
+            { '!bg-player-o/50 dark:!bg-player-oDark/50': gameWinner === 2 || gameNewRound }
+          )}>
             <p className="text-xs md:text-sm font-bold">{stats.playerWithStats[1].name}</p>
             <span className="text-xs mt-0.5">{stats.playerWithStats[1].wins}</span>
           </div>
