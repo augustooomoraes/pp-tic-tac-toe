@@ -8,8 +8,9 @@ import { GameState, Player } from "./lib/types";
 import { deriveGame, deriveStats } from "./lib/utils";
 import { FaX, FaO } from "react-icons/fa6";
 import { useLocalStorage } from "./lib/useLocalStorage";
-import { cloneDeep } from "lodash";
+import { cloneDeep, set } from "lodash";
 import { ThemeToggle } from "./ui/themeToggle/theme-toggle";
+import { useEffect, useState } from "react";
 
 export default function Home() {
   const [state, setState] = useLocalStorage<GameState>("game-state-key", {
@@ -23,6 +24,45 @@ export default function Home() {
   const game = deriveGame(state);
   const stats = deriveStats(state);
 
+  const [animateIcon, setAnimateIcon] = useState(false);
+  const [animateText, setAnimateText] = useState(false);
+
+  useEffect(() => {
+    setAnimateIcon(true);
+    const iconTimeout = setTimeout(() => setAnimateIcon(false), 500);
+
+    setAnimateText(true);
+    const textTimeout = setTimeout(() => setAnimateText(false), 500);
+
+    return () => {
+      clearTimeout(iconTimeout);
+      clearTimeout(textTimeout);
+    };
+  }, [game.currentPlayer]);
+
+  const [isBlinking, setIsBlinking] = useState([false, false, false, false, false, false, false, false, false]);
+  const [gameWinner, setGameWinner] = useState<number | null>(null);
+  const [gameNewRound, setGameNewRound] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => setIsBlinking(Array(9).fill(false)), 300);
+  }, [isBlinking]);
+
+  useEffect(() => {
+    if (game.status.isComplete) {
+      setGameWinner(game.status.winner?.id || 0);
+      console.log(`gameWinner: ${gameWinner}`); // TODO: remove testlog
+    } else {
+      setTimeout(() => setGameWinner(null), 300);
+    }
+  }, [game.status.isComplete]);
+
+  useEffect(() => {
+    gameNewRound === true && setTimeout(() => setGameNewRound(false), 300);
+  }, [gameNewRound]);
+
+  // =x=x=x=x=x=x=x=x=x=x=x=x=x=x=x=x=
+
   function resetGame(isNewRound: boolean) {
     setState((prev: GameState) => {
       const stateClone = cloneDeep(prev);
@@ -35,11 +75,17 @@ export default function Home() {
         });
       }
 
+      const filledSquares = moves.map((move) => move.squareId);
+      const newBlinkingState = Array(9).fill(false);
+      filledSquares.forEach( (id) => newBlinkingState[id - 1] = true );
+      setIsBlinking(newBlinkingState)
+
       stateClone.currentGameMoves = [];
 
       if (isNewRound) {
         stateClone.history.allGames.push(...stateClone.history.currentRoundGames);
         stateClone.history.currentRoundGames = [];
+        setGameNewRound(true)
       }
 
       return stateClone;
@@ -71,10 +117,10 @@ export default function Home() {
             "col-start-1 col-end-3 self-center flex items-center gap-5 md:text-lg",
             game.currentPlayer.colorClass
           )}>
-            <div className={classNames("animate-turnIconAnimation")}>
+            <div className={classNames({"animate-turnIconAnimation": animateIcon})}>
               {game.currentPlayer.id === 1 ? <FaX /> : <FaO />}
             </div>
-            <p className="animate-turnTextAnimation font-medium dark:font-normal">
+            <p className={classNames({"animate-turnTextAnimation": animateText}, "font-medium dark:font-normal")}>
               {`Vez do ${game.currentPlayer.name}`}
             </p>
           </div>
@@ -87,16 +133,19 @@ export default function Home() {
             return (
               <div
                 key={squareId}
-                className="
-                  flex justify-center items-center
-                  text-3xl md:text-5xl
-                  rounded-lg
-                  bg-black/5       hover:bg-black/[0.03]      active:bg-black/[0.01]
-                  dark:bg-white/10 dark:hover:bg-white/[0.15] dark:active:bg-white/
-                  transition-colors
-                  hover:cursor-pointer hover:placeholder-opacity-90
-                  shadow-md dark:shadow-lg shadow-black/30
-                "
+                className={classNames(
+                  `
+                    flex justify-center items-center
+                    text-3xl md:text-5xl
+                    rounded-lg
+                    bg-black/5       hover:bg-black/[0.03]      active:bg-black/[0.01]
+                    dark:bg-white/10 dark:hover:bg-white/[0.15] dark:active:bg-white/
+                    transition-colors
+                    hover:cursor-pointer hover:placeholder-opacity-90
+                    shadow-md dark:shadow-lg shadow-black/30
+                  `,
+                  { '!bg-white/50 dark:!bg-white/30': isBlinking[squareId - 1] }
+                )}
                 onClick={() => {
                   if (existingMove) return;
                   handlePlayerMove(squareId, game.currentPlayer);
@@ -107,33 +156,42 @@ export default function Home() {
             );
           })}
 
-          <div className="
-            flex flex-col justify-center items-center
-            rounded-lg
-            shadow-md dark:shadow-lg shadow-black/30
-            bg-player-x dark:bg-player-xDark
-            transition-colors
-          ">
+          <div className={classNames(
+            `
+              flex flex-col justify-center items-center
+              rounded-lg
+              shadow-md dark:shadow-lg shadow-black/30
+              bg-player-x dark:bg-player-xDark
+              transition-colors
+            `,
+            { '!bg-player-x/50 dark:!bg-player-xDark/50': gameWinner === 1 || gameNewRound }
+          )}>
             <p className="text-xs md:text-sm font-bold">{stats.playerWithStats[0].name}</p>
             <span className="text-xs mt-0.5">{stats.playerWithStats[0].wins}</span>
           </div>
-          <div className="
-            flex flex-col justify-center items-center
-            rounded-lg
-            shadow-md dark:shadow-lg shadow-black/30
-            bg-surface-ties dark:bg-surface-tiesDark
-            transition-colors
-          ">
+          <div className={classNames(
+            `
+              flex flex-col justify-center items-center
+              rounded-lg
+              shadow-md dark:shadow-lg shadow-black/30
+              bg-surface-ties dark:bg-surface-tiesDark
+              transition-colors
+            `,
+            { '!bg-surface-ties/50 dark:!bg-surface-tiesDark/50': gameWinner === 0 || gameNewRound }
+          )}>
             <p className="text-xs md:text-sm font-bold">Empates</p>
             <span className="text-xs mt-0.5">{stats.ties}</span>
           </div>
-          <div className="
-            flex flex-col justify-center items-center
-            rounded-lg
-            shadow-md dark:shadow-lg shadow-black/30
-            bg-player-o dark:bg-player-oDark
-            transition-colors
-          ">
+          <div className={classNames(
+            `
+              flex flex-col justify-center items-center
+              rounded-lg
+              shadow-md dark:shadow-lg shadow-black/30
+              bg-player-o dark:bg-player-oDark
+              transition-colors
+            `,
+            { '!bg-player-o/50 dark:!bg-player-oDark/50': gameWinner === 2 || gameNewRound }
+          )}>
             <p className="text-xs md:text-sm font-bold">{stats.playerWithStats[1].name}</p>
             <span className="text-xs mt-0.5">{stats.playerWithStats[1].wins}</span>
           </div>

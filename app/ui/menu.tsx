@@ -1,7 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import classNames from "classnames";
+import { useEffect, useRef, useState } from "react";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa6";
 
 type Props = {
@@ -10,9 +9,23 @@ type Props = {
 
 export default function Menu({ onAction }: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
-    <div className="relative">
+    <div className="relative" ref={menuRef}>
       <button
         className="
           flex justify-center md:justify-around items-center gap-1.5 md:gap-0
@@ -52,6 +65,7 @@ export default function Menu({ onAction }: Props) {
             "
             onClick={() => {
               onAction("reset");
+              setMenuOpen(false);
             }}
           >
             Reiniciar
@@ -68,6 +82,7 @@ export default function Menu({ onAction }: Props) {
             "
             onClick={() => {
               onAction("new-round");
+              setMenuOpen(false);
             }}
           >
             Nova Rodada
